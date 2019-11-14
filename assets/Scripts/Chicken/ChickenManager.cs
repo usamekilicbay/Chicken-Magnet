@@ -1,18 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class ChickenManager : MonoBehaviour
 {
-    [SerializeField] private float movementSpeed;
+   /* [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed;
 
     Vector3 temporaryPosition;
-    Vector3 temporaryRotation;
+    Vector3 temporaryRotation;*/
+
+    public NavMeshAgent navMeshAgent;
 
     private void Update()
     {
-        if (transform.position.x < temporaryPosition.x + Random.Range(0f, 5f) 
+        if (Input.GetMouseButton(0))
+        {
+            navMeshAgent.SetDestination(PositionTaker.Instance.PosSender());
+        }
+        /*if (transform.position.x < temporaryPosition.x + Random.Range(0f, 5f) 
             || transform.position.x > temporaryPosition.x + Random.Range(0f, 5f) 
             && transform.position.z < temporaryPosition.z + Random.Range(0f, 5f)
             || transform.position.z > temporaryPosition.z + Random.Range(0f, 5f))
@@ -27,6 +34,6 @@ public class ChickenManager : MonoBehaviour
             temporaryPosition.y = transform.position.y;
             gameObject.transform.position = Vector3.MoveTowards(transform.position,
             temporaryPosition, movementSpeed * Time.deltaTime);
-        }
+        }*/
     }  
 }

@@ -4,17 +4,26 @@ using UnityEngine;
 
 public class EnvironmentPool : MonoBehaviour
 {
-    public List<GameObject> environments;
-    public GameObject grassPrefab;
+    [SerializeField] private List<GameObject> environments;
+    [SerializeField] private GameObject grassPrefab;
 
-    public int environmentLimit;
+    [SerializeField] private int environmentLimit;
 
-    void Start()
+    [SerializeField] private float frequency;
+    [SerializeField] private float posFixValue;
+    [SerializeField] private float heightFromPlatform;
+
+    public IEnumerator CreateEnvironmentPool(float waitTime)
     {
+        yield return new WaitForSeconds(waitTime);
+
         do
         {
-            GameObject temporaryObj = Instantiate(grassPrefab);
-            environments.Add(temporaryObj);
-        } while (environments.Count < environmentLimit); 
+            GameObject temporaryGrass = Instantiate(grassPrefab);
+
+            temporaryGrass.transform.position = PlatformScaleTaker.Instance.ScaleFormule(frequency, posFixValue, heightFromPlatform);
+
+            environments.Add(temporaryGrass);
+        } while (environments.Count < environmentLimit);
     }
 }

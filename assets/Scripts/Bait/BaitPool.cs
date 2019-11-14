@@ -9,19 +9,18 @@ public class BaitPool : MonoBehaviour
 
     private void Awake() { if (Instance == null) { _instance = this; } }
 
-    public int objectCount;
-
     public List<GameObject> passivebaits;
     public List<GameObject> activebaits;
+    [SerializeField] private GameObject baitPrefab;
 
-    public GameObject baitPrefab;
+    [SerializeField] private int objectCount;
 
 
     private void Start()
     {
         do
         {
-            GameObject temporaryBait = Instantiate(baitPrefab, gameObject.transform);
+            GameObject temporaryBait = Instantiate(baitPrefab);
             temporaryBait.SetActive(false);
             passivebaits.Add(temporaryBait);
 

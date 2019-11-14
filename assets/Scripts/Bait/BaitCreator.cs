@@ -9,7 +9,7 @@ public class BaitCreator : MonoBehaviour
 
     BaitPool baitPool;
     ChickenPool chickenPool;
-   
+
     [SerializeField] private float timerActive;
     [SerializeField] private float timerActiveLimit;
 
@@ -21,7 +21,7 @@ public class BaitCreator : MonoBehaviour
 
     [SerializeField] LayerMask layerMask;
 
-    [SerializeField] private int chickenCreatingLimit; 
+    [SerializeField] private int chickenCreatingLimit;
 
     private void Awake() { if (Instance == null) { _instance = this; } }
 
@@ -33,7 +33,7 @@ public class BaitCreator : MonoBehaviour
     }
 
     private void Update()
-    {    
+    {
         if (Input.GetMouseButton(0))
         {
             timerActive -= Time.deltaTime;
@@ -42,36 +42,36 @@ public class BaitCreator : MonoBehaviour
         else { timerActive = timerActiveLimit; }
     }
 
-    
+
 
     void ActiveBait()
-    {       
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    {
+        /*Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
 
         if (Physics.Raycast(ray, out hit, 100f, layerMask))
-        {
-            timerActive = timerActiveLimit;
+        {*/
+        timerActive = timerActiveLimit;
 
-            posTaker.transform.position = hit.point;
-            for (int i = 0; i < chickenCreatingLimit; i++)
-            {
-                GameObject temporaryBait = baitPool.passivebaits[0];
-                temporaryBait.transform.position = hit.point + new Vector3(Random.Range(-2f, 2f), 3, Random.Range(-2f, 2f));
-                temporaryBait.SetActive(true);
-                baitPool.activebaits.Add(temporaryBait);
-                baitPool.passivebaits.Remove(temporaryBait);
-                StartCoroutine(PassiveBait());
-            }
-        }     
+        //posTaker.transform.position = hit.point;
+
+        for (int i = 0; i < chickenCreatingLimit; i++)
+        {
+            GameObject temporaryBait = baitPool.passivebaits[0];
+            temporaryBait.transform.position = PositionTaker.Instance.PosSender() + new Vector3(Random.Range(-2f, 2f), 3, Random.Range(-2f, 2f));
+            temporaryBait.SetActive(true);
+            baitPool.activebaits.Add(temporaryBait);
+            baitPool.passivebaits.Remove(temporaryBait);
+            StartCoroutine(PassiveBait());
+        }
     }
 
     IEnumerator PassiveBait()
-    {      
+    {
         yield return new WaitForSeconds(timerPassiveLimit);
         GameObject temporaryBait = baitPool.activebaits[0];
-        temporaryBait.SetActive(false);        
+        temporaryBait.SetActive(false);
         baitPool.passivebaits.Add(temporaryBait);
         baitPool.activebaits.Remove(temporaryBait);
     }

@@ -4,22 +4,25 @@ using UnityEngine;
 
 public class ChickenPool : MonoBehaviour
 {
-    public List<GameObject> chickens;
-
-    [SerializeField] GameObject chickenPrefab;
+    [SerializeField] private List<GameObject> chickens;
+    [SerializeField] private GameObject chickenPrefab; 
 
     [SerializeField] private int chickenLimit;
 
-    private void Awake()
+    [SerializeField] private float frequency;
+    [SerializeField] private float posFixValue;
+    [SerializeField] private float heightFromPlatform;
+
+    public IEnumerator CreateChickenPool(float waitTime)
     {
+        yield return new WaitForSeconds(waitTime);
+
         do
         {
-            float xPos = Random.Range (-20f,20f);
-            float zPos = Random.Range(-20f, 20f);
-            Vector3 spawnPoint = new Vector3(xPos, 1, zPos);
+            GameObject temporaryChicken = Instantiate(chickenPrefab);
+            temporaryChicken.transform.position = PlatformScaleTaker.Instance.ScaleFormule(frequency, posFixValue, heightFromPlatform);
 
-            GameObject temporaryObj = Instantiate(chickenPrefab, spawnPoint, transform.rotation);
-            chickens.Add(temporaryObj);
+            chickens.Add(temporaryChicken);
         } while (chickens.Count < chickenLimit);
     }
 }
