@@ -9,8 +9,13 @@ public class EnvironmentPool : MonoBehaviour
 
     [SerializeField] private int environmentLimit;
 
+    [Range(1, 2)]
     [SerializeField] private float frequency;
+
+    [Range(1, 30)]
     [SerializeField] private float posFixValue;
+
+    [Range(1, 100)]
     [SerializeField] private float heightFromPlatform;
 
     public IEnumerator CreateEnvironmentPool(float waitTime)
@@ -21,7 +26,7 @@ public class EnvironmentPool : MonoBehaviour
         {
             GameObject temporaryGrass = Instantiate(grassPrefab);
 
-            temporaryGrass.transform.position = PlatformScaleTaker.Instance.ScaleFormule(frequency, posFixValue, heightFromPlatform);
+            temporaryGrass.transform.position = PlatformScaleTaker.ScaleFormule(frequency, posFixValue, heightFromPlatform);
 
             environments.Add(temporaryGrass);
         } while (environments.Count < environmentLimit);

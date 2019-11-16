@@ -8,6 +8,7 @@ TagManager:
   - Chicken
   - Bait
   - PostProcessing
+  - FallingObject
   layers:
   - Default
   - TransparentFX

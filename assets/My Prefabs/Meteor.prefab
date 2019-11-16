@@ -10,12 +10,13 @@ GameObject:
   m_Component:
   - component: {fileID: 1983910462056949358}
   - component: {fileID: 1983910462056949357}
+  - component: {fileID: -7113859783912127395}
   - component: {fileID: 1983910462056949356}
   - component: {fileID: 1983910462056949355}
   - component: {fileID: 5243446032628613557}
   m_Layer: 0
   m_Name: Meteor
-  m_TagString: Untagged
+  m_TagString: FallingObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -42,6 +43,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983910462056949354}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &-7113859783912127395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1983910462056949354}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51d04bf70d3949540b5013411ae6cbaf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!23 &1983910462056949356
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -88,9 +101,9 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1983910462056949354}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
+  m_Radius: 1
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

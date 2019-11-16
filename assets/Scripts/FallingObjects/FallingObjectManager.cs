@@ -4,10 +4,22 @@ using UnityEngine;
 
 public class FallingObjectManager : MonoBehaviour
 {
-    private FallingObjectPool fallingObjectPool;
+    private static FallingObjectPool fallingObjectPool;
 
+    [Range(0,10)]
     [SerializeField] private float timeLimit;
+
     [SerializeField] private float fallTimer;
+
+
+    [Range(1, 2)]
+    [SerializeField] private float frequency;
+
+    [Range(1, 30)]
+    [SerializeField] private float posFixValue;
+
+    [Range(1, 100)]
+    [SerializeField] private float heightFromPlatform;
 
     void Start()
     {
@@ -24,9 +36,7 @@ public class FallingObjectManager : MonoBehaviour
         {
             ObjectFaller();
             fallTimer = Random.Range(1, timeLimit);
-        } 
-        
-
+        }        
     }
 
     void ObjectFaller()
@@ -37,8 +47,14 @@ public class FallingObjectManager : MonoBehaviour
 
         fallingObjectPool.fallingObjects.Remove(temporaryFallingObject);
 
-        /*Vector3 fallPosition = Random.Range
-        temporaryFallingObject.transform.position = ;*/
+        temporaryFallingObject.transform.position = PlatformScaleTaker.ScaleFormule(frequency, posFixValue, heightFromPlatform);
+
         temporaryFallingObject.SetActive(true);
+    }
+
+    public static void ObjectLoader(GameObject temporaryFalledObject)
+    {
+        temporaryFalledObject.SetActive(false);
+        fallingObjectPool.fallingObjects.Add(temporaryFalledObject);
     }
 }

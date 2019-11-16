@@ -5,19 +5,33 @@ using UnityEngine.AI;
 
 public class ChickenManager : MonoBehaviour
 {
-   /* [SerializeField] private float movementSpeed;
-    [SerializeField] private float rotationSpeed;
+    /* [SerializeField] private float movementSpeed;
+     [SerializeField] private float rotationSpeed;
 
-    Vector3 temporaryPosition;
-    Vector3 temporaryRotation;*/
+     Vector3 temporaryPosition;
+     Vector3 temporaryRotation;*/
+    [SerializeField] float timerLimit;
+    [SerializeField] float timer;
 
-    public NavMeshAgent navMeshAgent;
+    [SerializeField] private NavMeshAgent navMeshAgent;
+
+    private void Start()
+    {
+        timer = timerLimit;
+    }
 
     private void Update()
     {
+        timer -= Time.deltaTime;
+
         if (Input.GetMouseButton(0))
         {
-            navMeshAgent.SetDestination(PositionTaker.Instance.PosSender());
+            navMeshAgent.SetDestination(PositionTaker.PosSender());
+        }
+        else if (Input.GetMouseButtonUp(0) && timer <= 0)
+        {
+            navMeshAgent.SetDestination(transform.position);
+            timer = timerLimit;
         }
         /*if (transform.position.x < temporaryPosition.x + Random.Range(0f, 5f) 
             || transform.position.x > temporaryPosition.x + Random.Range(0f, 5f) 
@@ -35,5 +49,5 @@ public class ChickenManager : MonoBehaviour
             gameObject.transform.position = Vector3.MoveTowards(transform.position,
             temporaryPosition, movementSpeed * Time.deltaTime);
         }*/
-    }  
+    }
 }

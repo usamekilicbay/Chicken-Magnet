@@ -4,23 +4,23 @@ using UnityEngine;
 
 public class PlatformScaleTaker : MonoBehaviour
 {
-    private static PlatformScaleTaker _instance;
-    public static PlatformScaleTaker Instance { get { return _instance; } }
+    /*private static PlatformScaleTaker _instance;
+    public static PlatformScaleTaker Instance { get { return _instance; } }*/
 
     [SerializeField] GameObject platform;
 
-     float xPos;
-     float yPos;
-     float zPos;
+     static float xPos;
+     static float yPos;
+     static float zPos;
 
 
     private void Awake()
     {
-        if (Instance == null) { _instance = this; }
+       // if (Instance == null) { _instance = this; }
 
         platform = GameObject.Find("Platform");
 
-        StartCoroutine(Destroyer());
+       // StartCoroutine(Destroyer());
     }
 
     private void Start()
@@ -37,7 +37,7 @@ public class PlatformScaleTaker : MonoBehaviour
     // Çünkü orjin noktası 0 platfromun yarısı - değerlerde.
     
     // Kodun amacı: Platform büyüklüğü değişse bile objeler, tavuklar ve engeller belli oranda yerleştirilsin. 
-    public Vector3 ScaleFormule(float frequency,float posFixValue,float heightFromPlatform)
+    public static Vector3 ScaleFormule(float frequency,float posFixValue,float heightFromPlatform)
     {
         float randomXPos = Random.Range(-xPos / frequency + posFixValue, xPos / frequency - posFixValue);
         float randomYPos = heightFromPlatform;
@@ -47,9 +47,11 @@ public class PlatformScaleTaker : MonoBehaviour
 
         return randomPos;
     }
+  
+    
     // Belli bir süre sonra bu objeyi sil ki ram'de yer kaplamasın boş yere 
     // (Singleton olduğu için silinmeyecek ama sadece bölüm başında lazım.)
     // (Singleton olmasının nedeni de 4 farklı scriptten ulaşılacak, bildiğim en kolay yol bu.)
-    IEnumerator Destroyer() { yield return new WaitForSeconds(5f); Destroy(gameObject); }
+    //IEnumerator Destroyer() { yield return new WaitForSeconds(5f); Destroy(gameObject); }
   
 }

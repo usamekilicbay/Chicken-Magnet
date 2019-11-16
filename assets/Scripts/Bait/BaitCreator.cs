@@ -8,12 +8,13 @@ public class BaitCreator : MonoBehaviour
     public static BaitCreator Instance { get { return _instance; } }
 
     BaitPool baitPool;
-    ChickenPool chickenPool;
+  //  ChickenPool chickenPool;
 
     [SerializeField] private float timerActive;
     [SerializeField] private float timerActiveLimit;
 
-    [SerializeField] private float timerPassive;
+    //[SerializeField] private float timerPassive;
+    [Range(0,20)]
     [SerializeField] private float timerPassiveLimit;
 
 
@@ -21,7 +22,7 @@ public class BaitCreator : MonoBehaviour
 
     [SerializeField] LayerMask layerMask;
 
-    [SerializeField] private int chickenCreatingLimit;
+    [SerializeField] private int baitCreatingLimit;
 
     private void Awake() { if (Instance == null) { _instance = this; } }
 
@@ -56,10 +57,10 @@ public class BaitCreator : MonoBehaviour
 
         //posTaker.transform.position = hit.point;
 
-        for (int i = 0; i < chickenCreatingLimit; i++)
+        for (int i = 0; i < baitCreatingLimit; i++)
         {
             GameObject temporaryBait = baitPool.passivebaits[0];
-            temporaryBait.transform.position = PositionTaker.Instance.PosSender() + new Vector3(Random.Range(-2f, 2f), 3, Random.Range(-2f, 2f));
+            temporaryBait.transform.position = PositionTaker.PosSender() + new Vector3(Random.Range(-2f, 2f), 3, Random.Range(-2f, 2f));
             temporaryBait.SetActive(true);
             baitPool.activebaits.Add(temporaryBait);
             baitPool.passivebaits.Remove(temporaryBait);
