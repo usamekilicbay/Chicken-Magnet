@@ -4,20 +4,27 @@ using UnityEngine;
 using UnityEngine.AI;
 
 public class ChickenManager : MonoBehaviour
-{
-    /* [SerializeField] private float movementSpeed;
-     [SerializeField] private float rotationSpeed;
-
-     Vector3 temporaryPosition;
-     Vector3 temporaryRotation;*/
+{    
     [SerializeField] float timerLimit;
     [SerializeField] float timer;
+    [SerializeField] float movementSpeed;
 
-    [SerializeField] private NavMeshAgent navMeshAgent;
+
+    private float previousTime;
+    Rigidbody rb;
+
+    //[SerializeField] private NavMeshAgent navMeshAgent;
+
+    public Vector3[] corners = new Vector3[100];
+ 
+
+    NavMeshPath meshPath;
 
     private void Start()
     {
+        meshPath = new NavMeshPath();
         timer = timerLimit;
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -26,28 +33,56 @@ public class ChickenManager : MonoBehaviour
 
         if (Input.GetMouseButton(0))
         {
-            navMeshAgent.SetDestination(PositionTaker.PosSender());
+            CalculatePath();
         }
         else if (Input.GetMouseButtonUp(0) && timer <= 0)
-        {
-            navMeshAgent.SetDestination(transform.position);
-            timer = timerLimit;
-        }
-        /*if (transform.position.x < temporaryPosition.x + Random.Range(0f, 5f) 
-            || transform.position.x > temporaryPosition.x + Random.Range(0f, 5f) 
-            && transform.position.z < temporaryPosition.z + Random.Range(0f, 5f)
-            || transform.position.z > temporaryPosition.z + Random.Range(0f, 5f))
-        {
-            temporaryRotation.x = BaitCreator.Instance.posTaker.transform.position.x;
-            temporaryRotation.y = transform.rotation.y;
-            temporaryRotation.z = BaitCreator.Instance.posTaker.transform.position.z;
-            transform.LookAt(temporaryRotation);
-
-
-            temporaryPosition = BaitCreator.Instance.posTaker.transform.position;//+ new Vector3(Random.Range(-5f,5f),0, Random.Range(-5f, 5f));
-            temporaryPosition.y = transform.position.y;
-            gameObject.transform.position = Vector3.MoveTowards(transform.position,
-            temporaryPosition, movementSpeed * Time.deltaTime);
-        }*/
+        {            
+           
+        }       
     }
+
+    void CalculatePath()
+    {
+        Vector3 mousePos = PositionTaker.PosSender();
+        float distance = Vector3.Distance(mousePos, transform.position);
+
+        if (distance < 30f)
+        {
+            Move(Time.timeSinceLevelLoad - previousTime);
+            previousTime = Time.timeSinceLevelLoad; 
+            NavMesh.CalculatePath(transform.position, mousePos, NavMesh.AllAreas, meshPath);
+        }
+    }
+
+
+    void Move(float elapsed)
+    {
+        if (meshPath == null) return;
+
+        float distanceToTravel = movementSpeed * elapsed;
+        int cornersCount = meshPath.GetCornersNonAlloc(corners);
+
+        int arrayLenght = corners.Length - 1;
+        for (int i = 0; i < arrayLenght; i++)
+        {
+            float temporaryDistance = Vector3.Distance(corners[i], corners[i + 1]);
+            if (temporaryDistance < distanceToTravel)
+            {
+                distanceToTravel -= temporaryDistance;
+                continue;
+            }
+            else
+            {
+                transform.position = Vector3.Lerp(corners[i], corners[i + 1], distanceToTravel / temporaryDistance);
+                break;
+            }
+        }
+    }
+
+
+    /*void GetAway()
+    {
+        //navMeshAgent.SetDestination(transform.position);
+        timer = timerLimit;
+    }*/
 }
